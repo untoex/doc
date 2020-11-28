@@ -19,15 +19,10 @@
 [状态] service mysql status
 ```
 
-```scss
-//登录数据库
-mysql -h <地址> -u <用户名> -p <密码>
-```
-
 ## 库命令
 
 ```scss
-//库命令
+//DDL
 create database; <库名> //创建
 drop database; <库名> //删除
 use <库名>; //选择
@@ -38,7 +33,7 @@ show create database <库名> //查询(库定义)
 ## 表命令
 
 ```scss
-//表命令
+//DDL
 //创建表
 create table <表名>(列名 数据类型 [列级别约束条件],... ...[表级别约束条件]);
 //删除表
@@ -61,7 +56,7 @@ show create table <表名\g>;
 ## 字段命令
 
 ```scss
-//字段命令
+//DDL
 //增加字段
 alter table <表名> add <列名><数据类型>[约束条件][first|after 已存在列名];
 //计算字段(可用于创建表,增加字段)
@@ -76,7 +71,7 @@ alter table <表名> change <列名> <新列名><数据类型>;
 ## 记录命令
 
 ```scss
-//记录命令
+//DML
 //插入记录
 insert into <表名>(列名集合) values(数据集合),()...;
 insert into <表名>(列名集合) {<子查询>}
@@ -87,7 +82,7 @@ update <表名> set {<字段名>=<新记录>},{}... where {判断语句};
 ```
 
 ```scss
-//记录查询命令
+//DQL
 //查询
 select {*|<字段集合>} from <表集合>
 //不重复查询
@@ -106,6 +101,9 @@ some(<查询语句>) //任一
 all(<查询语句>) //所有
 exists(<查询语句>) //存在
 in(<查询语句>) //包含
+```
+
+```scss
 //其他命令
 //判断
 where <表达式> //分组之前
@@ -120,9 +118,63 @@ limit <[起始行],行数>
 <表名|字段名> [as] <别名>
 ```
 
-## 其他命令
+## 用户命令
 
 ```scss
+//DCL
+//登录
+mysql -u <用户名> -p <密码> -h <主机名> -P <端口号> -e <SQL语句(执行并退出)>
+//创建用户
+create user <用户名@[localhost(本地访问)|%(任意访问)|指定IP访问]> identified by [password(使用哈希值)] '<密码>';
+//删除用户
+drop user <用户名集合>;
+//修改密码(root)
+set password for <用户名>='<新密码>';
+//用户授权
+grant <all|权限集合> on <库名.表名> to <用户名>;
+//撤销授权
+revoke <all|权限集合> on <库名.表名> to <用户名>;
+//查看权限
+show grants for <用户名>;
+
+//数据备份
+mysqldump -u <用户名> -p <密码> <库名> [表名] >{路径/文件.sql};
+//数据恢复
+mysql -u <用户名> -p <密码> < <路径/文件.sql>
+```
+
+
+
+## 事务命令
+
+```scss
+//事务命令
+start transaction; //开启事务
+rollback; //回滚
+commit; //提交(未开启事务时,DML(增删改)会自动提交)
+//查询提交状态
+select @@autocommit; //1代表自动提交,0代表手动提交
+//修改提交状态
+set @@autocommit=0;
+//查询隔离级别
+select @@transaction_isolation; //mysql8
+select @@tx_isolation;
+//修改隔离级别
+set global transaction isolation level <级别字符串>
+//事务的四大特征
+1.原子性:是不可分割的最小操作单位,要么同时成功,要么同时失败.
+2.持久性:事务提交或回滚后,数据库会持久化的保存数据.
+3.隔离性:多个事物之间相互独立
+4.一致性:事务操作前后数据总量不变
+//隔离级别
+1.read uncommitted //读未提交 问题:脏读,虚读,幻读
+2.read committed   //读已提交 问题:虚读,幻读(Oracle默认)
+3.repeatable read  //可重复读 问题:幻读(MySQL默认)
+4.serializable     //串行化   问题:无
+//问题
+1.脏读:一个事务读取到另一个事务中没有提交的数据.
+2.虚读:一个事务中两次读取到的数据不一样.
+3.幻读:一个事务操作(DML)数据表中所有记录,另一个事务添加了一条数据,则地一个事务查询不到自己的修改.
 
 ```
 
