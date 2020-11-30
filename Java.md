@@ -410,21 +410,121 @@ transient //不能被序列化
 //java.base//
 
 //java.lang
-	Enum //[all] 枚举类默认父类
+	Object //所有类的最高父类
+		clone     //return 此对象的拷贝
+		equals    //compare(相等);return t|t|f
+		getClass  //return Class类
+		hashCode  //return 哈希值
+		toString  //retrun .
+		wait      //线程等待(直到被唤醒|倒计时完成)
+		notify    //唤醒线程(当前监视器)
+		notifyAll //唤醒所有线程(当前监视器)
+	Enum //[all] 枚举类直接父类
 		values            //return 数组(所有枚举项名称)
 		valueOf[S]        //param 枚举项名称,return 此枚举项
 		ordinal           //return 当前枚举项的序数
 		name              //return 当前枚举项的名称
 		getDeclaringClass //return 枚举类名<包名+类名>
-		"toString" //默认返回枚举项名
-		"hashCode","equals","compareTo","clone",//"finalize"
+		"toString"        //默认返回枚举项名
 	Throwable //异常处理类的最高父类
 		getMessage          //return 异常信息
 		getLocalizedMessage //return 本地化异常消息
 		printStackTrace     //print 异常信息和回溯
 		getStackTrace
 		setStackTrace
-		"toString"
+	Number //所有数值类型的直接父类
+		*Value //return 原始
+	CharSequence //所有字符类型的直接父类
+	Comparable[I] //able 比较器
+		compareTo(T o) //compare(this:param);return -1|0|1
+	Iterable	  //able 迭代器
+		iterator       //return Iterator对象
+		spliterator[S] //return Spliterator对象
+		forEach[S]	   //param  Consumer对象
+//包装类
+	Byte,Short,Integer,Long,Float,Double,
+		parse*[S]          //return 原始;param str
+		valueOf[S]         //return 包装;param 原始|str
+		decode[S]          //return 包装;param str
+		compare[S]	       //compare(x:y);return -1|0|1
+	Integer,Long,Float,Double
+		max[S] //compare(x,y);return max 
+		min[S] //compare(x,y);return min 
+		sum[S] //return x+y
+    Float,Double
+		isFinite[S]    //compare(有限);
+		isInfinite[+S] //compare(无限);
+		isNaN[+S]      //compare(NaN);
+	Boolean,Character
+		valueOf[S]   //return 包装;param 原始|str
+		parse?       //return 原始;param str
+		?Value       //return 原始
+//字符串处理
+	String //不变类
+		//判断
+        contains         //compare(包含);param CharSequence
+		startsWith       //compare(头部包含);param String
+        endsWith         //compare(结尾包含);param String
+        contentEquals    //compare(等于);param CharSequence|StringBuffer
+        equalsIgnoreCase //compare(等于~不考虑大小写)
+        isBlank          //compare(为空或只包含空格);
+        isEmpty          //compare(长度为0);
+        matches          //compare(正则)
+		indexOf          //compare(第一次出现);return int(索引);param String|int
+        lastIndexOf      //compare(最后一次出现);return int(索引);param String|int
+		//替换
+		replace          //replace(old<new);param char|CharSequence;替换字符
+		replaceAll       //replace(正则全部,param);param String
+		replaceFirst     //replace(正则第一个,param);param String
+		//分离
+		split            //split(正则);return String[];分割字符串
+		subSequence      //split(start,end);return CharSequence;param int(开始和结束索引)
+		substring        //split(start,end);return String;param int(开始和结束索引)
+		//合并
+		concat           //concat(this+param);连接字符串
+        repeat           //concat(this*param);param int(重复次数)
+        join[S]          //concat(delimiter,ele...);param CharSequence
+		//去空格
+        trim             //trim(前后,小于'U+0020'的所有空格字符)
+        strip            //trim(前后,空格)
+        stripLeading     //trim(前,空格)
+        stripTrailing    //trim(后,空格)
+		//类型转换
+		valueof          //transform(整|浮|布|char|char,String)
+        copyValueOf[S]   //transform(char[],String)
+        format[S]        //transform(格式字符串,String)
+        getBytes         //transform(this|String|Charset,byte[])
+        getChars         //transform(String,char[]);复制
+		toCharArray      //transform(String,char[])
+		//getter
+		charAt           //return char;param int(索引)
+		length           //return int(长度)
+        lines            //return Stream类
+		toLowerCase      //return 小写
+		toUpperCase      //return 大写
+		//constructor
+		String(*) //byte[],char[],int[],String,StringBuffer,StringBuilder
+	StringBuilder //可变类
+	StringBuffer //可变类,线程安全
+		//功能
+		append       //追加字符串;param *;
+		delete       //删除字符串;param int(开始和结束索引);
+		deleteCharAt //删除字符串;param int(开始索引);
+		insert       //插入字符串;param int(索引),*;
+		reverse      //翻转字符串
+		trimToSize   //尝试减少存储数据的内存
+		//set
+		setCharAt    //set(索引处字符);param char
+		setLength    //set(长度)
+		"charAt"
+		"indexOf"
+		"lastIndexOf"
+		"replace"
+		"subSequence"
+		"substring"
+//数学计算
+
+//多线程
 ```
 
 ```scss
@@ -433,7 +533,6 @@ transient //不能被序列化
 //java.lang.annotation
 	Annotation[I] //[all] 注解默认实现接口
 		annotationType //return 注解类型
-		"equals","hashCode","toString"
 ```
 
 
@@ -442,12 +541,17 @@ transient //不能被序列化
 //java.base//
 
 //java.util
+	Iterator[I]	//顺序遍历
+			hasNext //compare(下一个元素);return Boolean
+			next	//return 下一个元素
+	Spliterator[I] //并行遍历
 ```
 
 ```scss
 //java.base//
 
 //java.io
+	Serializable[I] //able 序列号
 ```
 
 ```scss
