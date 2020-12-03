@@ -123,7 +123,14 @@
 	//>通配符(?):可以匹配任意类型
 	<? extends Type> //匹配Type及其子类
 	<? super Type>   //匹配Type及其父类
-	
+//线程状态
+	新建状态>//new Thread();
+	就绪状态>//start();yield()
+	运行状态
+	阻塞状态>//(1)等待阻塞:wait()
+            //(2)同步阻塞:获取synchronized同步锁失败
+            //(3)其他阻塞:sleep(),join()
+	死亡状态
 ```
 
 ## 数据类型
@@ -410,7 +417,7 @@ transient //不能被序列化
 //java.base//
 
 //java.lang
-	Object //所有类的最高父类
+	"Object"      //所有类的最高父类
 		clone     //return 此对象的拷贝
 		equals    //compare(相等);return t|t|f
 		getClass  //return Class类
@@ -419,48 +426,67 @@ transient //不能被序列化
 		wait      //线程等待(直到被唤醒|倒计时完成)
 		notify    //唤醒线程(当前监视器)
 		notifyAll //唤醒所有线程(当前监视器)
-	Enum //[all] 枚举类直接父类
+	"Enum"                //[all] 枚举类直接父类
 		values            //return 数组(所有枚举项名称)
 		valueOf[S]        //param 枚举项名称,return 此枚举项
 		ordinal           //return 当前枚举项的序数
 		name              //return 当前枚举项的名称
 		getDeclaringClass //return 枚举类名<包名+类名>
-		"toString"        //默认返回枚举项名
-	Throwable //异常处理类的最高父类
+		toString          //默认返回枚举项名
+	"Throwable"             //异常处理类的最高父类
 		getMessage          //return 异常信息
 		getLocalizedMessage //return 本地化异常消息
 		printStackTrace     //print 异常信息和回溯
 		getStackTrace
 		setStackTrace
-	Number //所有数值类型的直接父类
+	"Number"   //所有数值类型的直接父类
 		*Value //return 原始
-	CharSequence //所有字符类型的直接父类
-	Comparable[I] //able 比较器
+	"CharSequence"[I] //所有字符类型的实现接口
+	"Comparable"[I]    //able 比较器
 		compareTo(T o) //compare(this:param);return -1|0|1
-	Iterable	  //able 迭代器
+	"Iterable"[I]	   //able 迭代器
 		iterator       //return Iterator对象
 		spliterator[S] //return Spliterator对象
 		forEach[S]	   //param  Consumer对象
+	"Cloneable" //able clone
+	"ClassLoader"                    //类加载器
+        getResourceAsStream          //return InputStream;param String(路径/文件名)
+        getSystemResourceAsStream[S] //return InputStream;param String(路径/文件名)
+    "Runtime"               //运行时类
+        availableProcessors //return 处理器数量
+        freeMemory  		//return 可用内存
+        maxMemory   		//return 最大内存
+        totalMemory 		//return 总内存
+	"System"              //系统类
+		arraycopy[S]      //复制数组;param Object(入),int(start),Object(出),int(start),int(len)
+		currentTimeMillis // return 当前时间(毫秒单位)
+        setOut            //set(System.out);param PrintStream(打印位置)
+		setErr            //set(System.err);param PrintStream(打印位置)
+        setIn             //set(System.in);param InputStream (输出位置)
+		//Field
+			out[S]        //type PrintStream;输出流;
+			err[S]        //type PrintStream;错误输出流;
+			in[S]         //type InputStream;输入流;
 //包装类
-	Byte,Short,Integer,Long,Float,Double,
+	"Byte,Short,Integer,Long,Float,Double"
 		parse*[S]          //return 原始;param str
 		valueOf[S]         //return 包装;param 原始|str
 		decode[S]          //return 包装;param str
 		compare[S]	       //compare(x:y);return -1|0|1
-	Integer,Long,Float,Double
+	"Integer,Long,Float,Double"
 		max[S] //compare(x,y);return max 
 		min[S] //compare(x,y);return min 
 		sum[S] //return x+y
-    Float,Double
+    "Float,Double"
 		isFinite[S]    //compare(有限);
 		isInfinite[+S] //compare(无限);
 		isNaN[+S]      //compare(NaN);
-	Boolean,Character
+	"Boolean,Character"
 		valueOf[S]   //return 包装;param 原始|str
 		parse?       //return 原始;param str
 		?Value       //return 原始
 //字符串处理
-	String //不变类
+	"String"             //不变类
 		//判断
         contains         //compare(包含);param CharSequence
 		startsWith       //compare(头部包含);param String
@@ -490,7 +516,7 @@ transient //不能被序列化
         stripLeading     //trim(前,空格)
         stripTrailing    //trim(后,空格)
 		//类型转换
-		valueof          //transform(整|浮|布|char|char,String)
+		valueof          //transform(整|浮|布|char[]|char,String)
         copyValueOf[S]   //transform(char[],String)
         format[S]        //transform(格式字符串,String)
         getBytes         //transform(this|String|Charset,byte[])
@@ -503,9 +529,9 @@ transient //不能被序列化
 		toLowerCase      //return 小写
 		toUpperCase      //return 大写
 		//constructor
-		String(*) //byte[],char[],int[],String,StringBuffer,StringBuilder
-	StringBuilder //可变类
-	StringBuffer //可变类,线程安全
+		String(*)        //byte[],char[],int[],String,StringBuffer,StringBuilder
+	"StringBuilder"  //可变类
+	"StringBuffer"   //可变类,线程安全
 		//功能
 		append       //追加字符串;param *;
 		delete       //删除字符串;param int(开始和结束索引);
@@ -516,23 +542,109 @@ transient //不能被序列化
 		//set
 		setCharAt    //set(索引处字符);param char
 		setLength    //set(长度)
-		"charAt"
-		"indexOf"
-		"lastIndexOf"
-		"replace"
-		"subSequence"
-		"substring"
+		charAt
+		indexOf
+		lastIndexOf
+		replace
+		subSequence
+		substring
 //数学计算
-
+	"Math"                //数学运算;
+	"StrictMath"          //严格数学运算;保证在各系统运算结果一致
+		//运算
+		abs[S]            //abs(param);param double|float|int|lang
+		sqrt[S]           //sqrt(param);param double;平方根
+		//安全运算
+		addExact[S]       //exact(a+b);param int|lang;加法,溢出报错
+		subtractExact[S]  //exact(a-b);param int|lang;减法,溢出报错
+		multiplyExact[S]  //exact(a*b);param int|lang;乘法,溢出报错
+		negateExact[S]    //exact(-param);param int|lang;取反,溢出报错
+		decrementExact[S] //exact(param--);param int|lang;自减,溢出报错
+		incrementExact[S] //exact(param++);param int|lang;自增,溢出报错
+		//舍入法
+		ceil[S]           //向上取整;param double
+		floor[S]          //向下取整;param double
+		round[S]          //四舍五入;param double|float;return long|int
+		floorDiv[S]       //floor(a/b);param int|lang
+		floorMod[S]       //floor(a%b);param int|lang
+		//判断
+		max[S]            //compare(a,b);return max;param double|float|int|lang
+		min[S]            //compare(a,b);return min;param double|float|int|lang
+		//类型转换
+		toIntExact        //transform(long,int)
+		//随机数
+		random            //random(0-1);return double;随机数
 //多线程
+	"Runnable"[I] //able run();
+	"Thread"
+		//getter
+        currentThread[S] //return Thread(当前执行线程)
+        getId            //return long(ID)
+        getName          //return String(名称)
+        getPriority      //return int(优先级)
+        getState         //return Thread.State(状态)
+        getThreadGroup   //return ThreadGroup(线程组)
+		//setter
+        setDaemon        //set(守护线程)
+        setName          //set(名称)
+        setPriority      //set(优先级)
+		//判断
+        interrupted[S]   //transform(中断)
+        isInterrupted    //transform(中断)
+        isAlive          //transform(存在)
+        isDaemon         //transform(守护线程)
+		//功能
+        start            //线程执行
+        interrupt        //中断线程
+        sleep            //线程休眠(倒计时完成)
+        yield            //礼让线程
+        join             //插队线程(直到运行结束|倒计时完成)
+	//constructor
+		Thread(*)        // param Runnable|ThreadGroup,Runnable|String(线程名)
+//反射
+	"Class" 
+		getName           //return 类名
+		getPackageName    //return 包名
+		forName[S]        //return Class
+		getPackage        //return Package
+		getClassLoader    //return ClassLoader
+		get[Declared]*[s] //*(Field,Method,Constructor,Annotation);public|Declared(全部)		
 ```
 
 ```scss
 //java.base//
 
 //java.lang.annotation
-	Annotation[I] //[all] 注解默认实现接口
+	"Annotation"[I]    //[all] 注解公共实现接口,反射相关
 		annotationType //return 注解类型
+```
+
+```scss
+//java.base//
+
+//java.lang.reflect //反射相关
+	"Field" //反射字段
+        get //return 字段值;param Object(指定对象)
+        set //set(旧,新);param Object(指定对象),Object(新值)
+	"Method"          //反射方法
+		invoke        //调用方法;param Object(指定对象),Object...(参数)
+		setAccessible //set(设置可访问标志);param boolean
+	"Constructor"         //反射构造函数
+			setAccessible //set(设置可访问标志);param boolean
+			newInstance   //实例化对象;param Object...(参数)
+	"Executable" //Method,Constructor公共直接父类
+	"Member"[I]           //Field,Method,Constructor,Executable公共实现类
+		getName           //return 名称
+		getModifiers      //return int(修饰符)
+		(UP)getAnnotation //return Annotation
+```
+
+```scss
+//java.base//
+
+//java.math
+	"BigInteger" //任意大小整数
+	"BigDecimal" //任意精度浮点数
 ```
 
 
@@ -540,34 +652,213 @@ transient //不能被序列化
 ```scss
 //java.base//
 
-//java.util
-	Iterator[I]	//顺序遍历
+//java.util //工具类
+	"Iterator"[I]	//顺序遍历
 			hasNext //compare(下一个元素);return Boolean
 			next	//return 下一个元素
-	Spliterator[I] //并行遍历
+	"Spliterator"[I] //并行遍历
+	"Comparator"[I] //比较器 compare()
+	"Scanner" 	//扫描器
+        close   //关闭
+        hasNext //compare(包含另一个输入)
+        next    //return String;返回输入
+        next*   //return *
+	"Random" //随机数
+			next* //return *(随机数);param int(随机数范围,只有*(int)才能添加参数)
+//时间和日期
+	"Calendar"[A] //日历
+        add             //sum(Field,param);param int
+		//判断
+        after           //compare(this>Object);晚
+        before          //compare(this<Object);早
+		isLenient		//compare(宽松)
+		//转换
+        computeFields   //transform(this(毫秒),Field)
+        computeTime     //transform(Field,毫秒)
+		toInstant       //transform(this,Instant)
+		//getter
+        get             //return 时间|日期;param Field
+        getCalendarType //return Field
+        getInstance[S]  //return Calendar
+        getTime         //return Date
+        getTimeZone     //return TimeZone(时区)
+		//setter
+        set             //set(this);param Field,int(新值)
+		setTime			//set(this);param Date
+		setTimeInMillis //set(this);param long(毫秒)
+        setLenient      //set(宽松|严格);param boolean
+        setTimeZone     //set(时区);param TimeZone
+	"Date"
+		from //transform(Instant,Date)
+		after,before,toInstant
+//集合
+	"Collection"[I] //集合公共实现接口
+        add         //添加;param E
+        addAll      //添加;param Collection
+        clear       //删除所有
+        remove      //删除;param Object(指定元素)
+        removeAll   //删除;param Collection
+		//判断
+        contains    //compare(包含);param Object(指定元素)
+        containsAll //compare(包含);param Collection(指定集合)
+        isEmpty     //compare(空)
+		//getter
+        size        //return int(元素数量)
+        stream[S]   //return Stream(链式流)
+		iterator	//return Iterator(迭代器)
+		//转换
+        toArray     //transform(this,Object[]|T[]);pram [T]
+	"List"[I] //有序,可重复,支持索引
+        get         //return E(数据);param int(索引)
+        set         //set(this,param);param int(索引),E(新值)
+        sort        //排序;param Comparator
+        subList     //split(start,end)
+		//判断
+        indexOf     //compare(首次出现);return int(索引);param Object(指定元素)
+        lastIndexOf //compare(最后出现);return int(索引);param Object(指定元素)
+		//重载方法
+        add,remove  //param int(索引);
+	"ArrayList"     //数组实现(查询快,增删慢)
+	"Vector"        //数组实现,同步
+	"LinkedList"    //双链表实现(查询慢,增删快)
+        addFirst
+        addLast
+        getFirst
+        getLast
+        removeFirst
+        removeLast
+	"Set"[I]        //无序,不可重复,不支持索引
+	"HashSet"       //哈系表实现
+	"LinkedHashSet" //哈希表+链表实现
+	"TreeSet"       //红黑树
+//双列集合
+	"Map"[I] //值可重复
+		//判断
+        containsKey   //compare(包含K)
+        containsValue //compare(包含V)
+        isEmpty       //compare(空)
+		//遍历方式
+        entrySet      //return Set(K,V)
+        keySet        //return Set(K)
+        values        //return Collection(V)
+		//功能
+        put           //添加元素(key相同时,新值替换旧值);param K,V
+        putAll        //添加元素;param Map
+        remove        //删除元素;param K
+        clear         //删除所有
+		//getter
+        get           //return value;param Object(K)
+        size          //return 元素数量
+	"HashMap" 		//哈系表实现
+	"LinkedHashMap" //哈系表+链表
+	"TreeMap" 		//红黑树
+	"Hashtable" 	//哈系表实现,同步
+	"ConCurrentHashMap" //同步,高效
+	"Properties<String,String>" //流
+        load        //读取数据;param InputStream|Reader
+        store       //写入数据;param OutputStream|Writer
+        getProperty //获取元素
+        setProperty //添加元素(调用HashTable.put)
+//工具类
+	"Arrays"      //数组工具类
+		stream[S] //return Stream
+		sort[S]   //排序
+	"Collections" //集合工具类
 ```
 
 ```scss
 //java.base//
 
 //java.io
-	Serializable[I] //able 序列号
+	"Serializable"[I] //able 序列化
+	"File" //文件/目录
+        canExecute //compare(可运行)
+        canRead //compare(可读)
+        canWrite //compare(可写)
+        exists //compare(存在)
+        isDirectory //compare(目录)
+        isFile //compare(文件)
+        length //return long(文件长度)
+	"InputStream" //字节输入流
+		read 		 //读取数据;param byte[]
+		readAllBytes //读取所有数据;return byte[]
+		close
+	"OutputStream" //字节输出流
+		write //写入数据;param byte[]
+		flush
+	"Reader"  //字符输入流
+		read  //读取数据;param char[]
+	"Writer"  //字符输出流
+		write //写入数据;param char[]|String
+	"File*" //文件流(读取文件)
+		//constructor param File
+	"Buffered*" //缓冲流(缓冲数据)
+		//constructor param 输入/输入流
+	"Filter*" //过滤流
+		//constructor param 输入/输入流
+	"Print*" //打印输出流(只有输出)
+		//constructor param File|输出|String
+	"InputStreamReader"  //转换输入流(指定字符集)
+		//constructor param 输入流,字符集
+	"OutputStreamWriter" //转换输出流(指定字符集)
+		//constructor param 输出流,字符集
+```
+
+```scss
+//java.base//
+
+//java.util.function 函数式接口
+	"Supplier" //生产者
+		get
+	"Consumer" //消费者
+		accept
+		andThen //组合操作
+	"Predicate" //判断
+		test
+		and    //与
+		or     //或
+		negate //非
+	"Function" //数据类型转换
+		apply
+		andThen //组合操作(之后)
+		compose //组合操作(之前)
+```
+
+```scss
+//java.base//
+
+//java.util.stream
+	"Stream"[I]  //链式流
+        of       //return Stream;param T...
+        concat   //return Stream;param Stream,Stream
+        count    //return long(元素数量)
+        forEach  //逐一处理;return void
+        filter   //逐一过滤;
+        map      //逐一映射;
+        limit    //取用(0-param);param long
+        skip     //跳过(0-param);param long
+        distinct //去除重复值
+        sorted   //排序
+
 ```
 
 ```scss
 //java.base//
 
 //java.test
+	"Format" //格式化公告直接父类
+	"DateFormat" //Date格式化类
+	"SimpleDateFormat" //Date格式化子类
 ```
 
 ```scss
 //java.sql//
 
 //java.sql
-	DriverManager     //驱动管理对象
+	"DriverManager"   //驱动管理对象
         getConnection //获取Connection对象
 
-	Connection[I]        //数据库连接对象
+	"Connection"[I]      //数据库连接对象
         createStatement  //获取Statement对象
         prepareStatement //获取PreparedStatement对象
         setAutoCommit    //开启事务
@@ -575,25 +866,25 @@ transient //不能被序列化
         rollback		 //回滚事务
 		'close'
 
-	Statement[I]      //执行[静态]sql的对象
-        execute       //执行任意sql语句
-        executeUpdate //执行DML和DDL语句(return 影响行数)
-        executeQuery  //执行DQL语句(return ResultSet对象)
+	"Statement"[I]      //执行[静态]sql的对象
+        execute       	//执行任意sql语句
+        executeUpdate 	//执行DML和DDL语句(return 影响行数)
+        executeQuery  	//执行DQL语句(return ResultSet对象)
 		'close'
 
-	PreparedStatement[I] //执行[预编译]sql的对象(解决sql注入)
-		set*(int,*)	  //为占位符赋值(param 位置,数值)
-		execute       //执行任意sql语句
-        executeUpdate //执行DML和DDL语句(return 影响行数)
-        executeQuery  //执行DQL语句(return ResultSet对象)
+	"PreparedStatement"[I] //执行[预编译]sql的对象(解决sql注入)
+		set*(int,*)	  	   //为占位符赋值(param 位置,数值)
+		execute            //执行任意sql语句
+        executeUpdate      //执行DML和DDL语句(return 影响行数)
+        executeQuery       //执行DQL语句(return ResultSet对象)
 
-	ResultSet[I]     //结果集对象
-        next         //游标向前移动一行
-        get*(int)    // 获取数据(param 数据编号 start 1)
-        get*(String) //获取数据(param 列名)
+	"ResultSet"[I]     //结果集对象
+        next           //游标向前移动一行
+        get*(int)      // 获取数据(param 数据编号 start 1)
+        get*(String)   //获取数据(param 列名)
 		'close'
 //javax.sql
-	DataSource[I] //数据库连接池
+	"DataSource"[I]   //数据库连接池
 		getConnection //获取连接
 
 ```
@@ -634,5 +925,20 @@ transient //不能被序列化
 	queryForMap //封装为map集合
 	queryForList //封装为list集合
 	queryForObject //封装为对象
+```
+
+## 面试题
+
+```scss
+//HashMap,Hashtable,ConcurrentHashMap三者之间的区别?
+	//1.线程的安全性
+		//HashMap 不同步
+	//2.key和value的null
+		//HashTable 不允许
+	//3.高效性考虑
+		//ConcurrentHashMap 高效,分流锁
+	//4.扩容机制
+		//HashMap *2
+		//Hashtable *2+1
 ```
 
