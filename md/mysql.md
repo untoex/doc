@@ -1,6 +1,6 @@
 # MYSQL 
 
-## 服务命令
+> **服务命令**
 
 ```scss
 //Windows
@@ -19,18 +19,18 @@
 [状态] service mysql status
 ```
 
-## 库命令
+> **库命令**
 
 ```scss
 //DDL
-create database; <库名> //创建
-drop database; <库名> //删除
-use <库名>; //选择
-show databases; //查询(所有库)
+create database; <库名>     //创建
+drop database; <库名>       //删除
+use <库名>;                 //选择
+show databases;            //查询(所有库)
 show create database <库名> //查询(库定义)
 ```
 
-## 表命令
+> **表命令**
 
 ```scss
 //DDL
@@ -53,7 +53,7 @@ describe <表名>; desc <表名>;
 show create table <表名\g>;
 ```
 
-## 字段命令
+> **字段命令**
 
 ```scss
 //DDL
@@ -68,7 +68,7 @@ alter table <表名> modify <列名><数据类型>[first|after 已存在列名];
 alter table <表名> change <列名> <新列名><数据类型>;
 ```
 
-## 记录命令
+> **记录命令**
 
 ```scss
 //DML
@@ -118,7 +118,7 @@ limit <[起始行],行数>
 <表名|字段名> [as] <别名>
 ```
 
-## 用户命令
+> **用户命令**
 
 ```scss
 //DCL
@@ -145,7 +145,7 @@ mysql -u <用户名> -p <密码> < <路径/文件.sql>
 
 
 
-## 事务命令
+> **事务命令**
 
 ```scss
 //事务命令
@@ -178,9 +178,7 @@ set global transaction isolation level <级别字符串>
 
 ```
 
-
-
-## 约束
+> **约束**
 
 ```scss
 //非空约束
@@ -200,7 +198,7 @@ primary key
 [constraint <约束名>] primary key(<字段集合>)
 ```
 
-## 数据类型
+> **数据类型**
 
 ```scss
 //整数
@@ -250,7 +248,7 @@ datetime //[YYYY-MM-DD HH:MM:SS][8][1000-01-01~9999-12-31 23:59:59]
 timestamp //[YYYY-MM-DD HH:MM:SS][4][1970-01-01 00:00:01~2038-01-19 03:14:07 UTC]
 ```
 
-## 运算符
+> **运算符**
 
 ```scss
 //算术运算符
@@ -299,14 +297,14 @@ timestamp //[YYYY-MM-DD HH:MM:SS][4][1970-01-01 00:00:01~2038-01-19 03:14:07 UTC
 [取反] ~
 ```
 
-## 函数
+> **函数**
 
 ```scss
 //集合函数
-max(字段名) //最大值
-min(字段名) //最小值
+max(字段名)   //最大值
+min(字段名)   //最小值
 count(字段名) //行数
-sum(字段名) //总和
-avg(字段名) //平均数
+sum(字段名)   //总和
+avg(字段名)   //平均数
 ```
 

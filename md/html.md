@@ -1,10 +1,10 @@
 # HTML
 
-> Hyper Text Markup Language (超文本标记语言)
+> **Hyper Text Markup Language (超文本标记语言)**
 
 ## 标签
 
-> 基础标签
+> **基础标签**
 
 ```scss
 <!DOCTYPE html>
@@ -19,6 +19,8 @@
 		<meta name="author" content="作者">
 		<meta name="description" content="网页内容描述">
 		<meta name="keywords" content="网页关键字">
+		//内部样式表
+		<style></style>
     </head>
 	//网页内容标签
     <body>
@@ -32,12 +34,15 @@
 		<em></em>
 		//空格
 		&nbsp;
+		//普通内联标签
+		<span></span>
+		//普通块标签
+		<div></span>
     <body>
 </html>
 ```
 
-> 表单
-> 
+> **表单**
 ```scss
 <form method="提交方式" action="发送地址">
 	//method="post" 安全,传输大文件
@@ -82,7 +87,7 @@
 </form>
 ```
 
-> 多媒体
+> **多媒体**
 
 ```scss
 //图片标签
@@ -95,7 +100,7 @@
 <audio src="视频地址" controls autoplay></audio>
 ```
 
-> 链接标签
+> **链接标签**
 
 ```scss
 //链接标签
@@ -109,9 +114,13 @@
 	//href="mailto:邮箱" 邮箱链接
 	//href="tel:电话"    电话链接
 	//download 下载
+//外部样式表
+<link rel="stylesheet" type="text/css" href="css地址"/>
+//引入脚本
+<script type="text/javascript" src=""></script>
 ```
 
-> 块标签
+> **块标签**
 
 ```scss
 //标题标签
@@ -126,7 +135,7 @@
 <p></p>
 ```
 
-> 列表
+> **列表**
 
 ```scss
 //有序列表
@@ -153,7 +162,7 @@
 </dl>
 ```
 
-> 表格
+> **表格**
 
 ```scss
 <table border="边框">
@@ -163,7 +172,7 @@
 </table>
 ```
 
-> 页面结构
+> **页面结构**
 
 ```scss
 //网页头部
@@ -183,9 +192,16 @@
 <footer></footer>
 ```
 
-> 内联框架
+> **内联框架**
 
 ```scss
 <iframe src="页面地址" name="框架标识名" width="宽" height="高"></iframe>
+```
+
+## 全局属性
+
+```scss
+id    //选择器;定义唯一标识符
+class //选择其;定义类型
 ```
 
